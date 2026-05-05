@@ -5,16 +5,14 @@ import Model.Project;
 
 import java.sql.*;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class ProjectRepository {
 
     public boolean save(Project project) {
         String sql = "INSERT INTO projects (id, name, created_by, created_at) VALUES (?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, project.getId());
             ps.setString(2, project.getName());
@@ -33,8 +31,8 @@ public class ProjectRepository {
         String sql = "SELECT * FROM projects";
         List<Project> projects = new ArrayList<>();
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 projects.add(mapRow(rs));
@@ -49,7 +47,7 @@ public class ProjectRepository {
     public Optional<Project> findById(String id) {
         String sql = "SELECT * FROM projects WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
@@ -66,7 +64,7 @@ public class ProjectRepository {
     public boolean deleteById(String id) {
         String sql = "DELETE FROM projects WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, id);
             return ps.executeUpdate() > 0;
@@ -82,7 +80,6 @@ public class ProjectRepository {
                 rs.getString("id"),
                 rs.getString("name"),
                 rs.getString("created_by"),
-                rs.getDate("created_at").toLocalDate()
-        );
+                rs.getDate("created_at").toLocalDate());
     }
 }

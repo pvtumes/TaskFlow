@@ -1,19 +1,19 @@
 package Model;
 
-import config.DatabaseConnection;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 
+import config.DatabaseConnection;
+
 public class Project {
     private String id;
     private String name;
-    private String createdBy;
+    private String createdBy; // stores user ID (FK → users.id)
     private LocalDate createdAt;
 
-
+    // Constructor for creating a NEW project (ID auto-generated from DB)
     public Project(String name, User currentUser) {
         this.name = name;
         this.createdBy = currentUser.getId();
@@ -21,7 +21,7 @@ public class Project {
         this.id = generateNextId();
     }
 
-
+    // Constructor for LOADING an existing project from DB (ID provided)
     public Project(String id, String name, String createdBy, LocalDate createdAt) {
         this.id = id;
         this.name = name;
